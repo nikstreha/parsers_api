@@ -1,0 +1,86 @@
+[project]
+name = "part-number-parser"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "bs4>=0.0.2",
+    "camoufox[geoip]>=0.4.11",
+    "dishka>=1.9.1",
+    "fastapi>=0.135.1",
+    "gunicorn>=25.1.0",
+    "pydantic-settings>=2.13.1",
+    "pymongo>=4.16.0",
+    "typer>=0.24.1",
+    "uvicorn>=0.42.0",
+]
+
+[tool.ruff]
+exclude = [
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "build",
+    "dist",
+    "site-packages",
+    "venv",
+    "__pycache__",
+]
+line-length = 88
+indent-width = 4
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "W",
+    "F",
+    "I",
+    "B",
+    "C4",
+    "UP",
+    "A",
+    "T20",
+    "SIM",
+    "D",
+]
+ignore = [
+    "E501",
+    "D100",
+    "D101",
+    "D102",
+    "D103",
+    "D104",
+    "D105",
+    "D107",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.format]
+quote-style = "double"
+docstring-code-format = true
+
+[tool.pyright]
+include = [
+    "src",
+    "tests",
+]
+
+venvPath = "."
+venv = ".venv"
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.5.1",
+]

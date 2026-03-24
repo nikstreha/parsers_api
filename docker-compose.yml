@@ -1,0 +1,51 @@
+services:
+  app:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    depends_on:
+      - mongo
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - db_network
+    volumes:
+      - ./src/logs:/app/src/logs
+
+
+  mongo:
+    image: mongo:8.2.4-noble
+    container_name: mongo
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+    ports:
+      - "${MONGO_PORT}:27017"
+    volumes:
+      - db_data:/data/db
+      - mongot:/data/mongot
+    networks:
+      - db_network
+    healthcheck:
+      test: >
+        mongosh --quiet
+        -u $MONGO_ROOT_USER
+        -p $MONGO_ROOT_PASSWORD
+        --eval "db.adminCommand('ping')"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+networks:
+  db_network:
+
+volumes:
+  mongot:
+  db_data:
